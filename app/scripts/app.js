@@ -1,5 +1,28 @@
 'use strict';
-angular.module('confusionApp', []).controller('MenuController',['$scope',function($scope) {
+
+angular.module('confusionApp', ['ngRoute'])
+       .config(function($routeProvider) {
+        $routeProvider
+            // route for the contactus page
+            .when('/contactus', {
+                templateUrl : 'contactus.html',
+                controller  : 'ContactController'
+            })
+            // route for the menu page
+            .when('/menu', {
+                templateUrl : 'menu.html',
+                controller  : 'MenuController'
+            })
+            // route for the dish details page
+            .when('/menu/:id', {
+                templateUrl : 'dishdetail.html',
+                controller  : 'DishDetailController'
+            })
+            .otherwise('/contactus');
+    });
+
+
+/*angular.module('confusionApp', []).controller('MenuController',['$scope',function($scope) {
             $scope.tab = 1;
             $scope.filtText = '';
             var dishes=[{
@@ -193,4 +216,4 @@ angular.module('confusionApp').controller('DishCommentController', ['$scope','$c
     $scope.commentform.rating='5';
     $scope.commentform.comments='';
 
-}]);
+}]);*/
