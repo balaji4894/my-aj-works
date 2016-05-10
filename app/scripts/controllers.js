@@ -56,6 +56,7 @@ angular.module('confusionApp').controller('FeedbackController', ['$scope', funct
   };
 }]);
 
+angular.module('confusionApp').controller('DishDetailController', ['$scope','$controller','menuFactory', function($scope,$controller,menuFactory) {
 
     $scope.dish= menuFactory.getDish(3);
     
