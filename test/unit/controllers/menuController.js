@@ -6,72 +6,71 @@ describe('Controller: MenuController', function () {
   var MenuController, scope, $httpBackend;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, _$httpBackend_,  $rootScope, menuFactory) {
+    beforeEach(inject(function ($controller, _$httpBackend_,  $rootScope, menuFactory) {
 
-      // place here mocked dependencies
-      $httpBackend = _$httpBackend_;
+            // place here mocked dependencies
+        $httpBackend = _$httpBackend_;
 
-      $httpBackend.expectGET("http://localhost:3000/dishes").respond([
+        $httpBackend.expectGET("http://localhost:3000/dishes").respond([
+          {
+        "id": 0,
+        "name": "Uthapizza",
+        "image": "images/uthapizza.png",
+        "category": "mains",
+        "label": "Hot",
+        "price": "4.99",
+        "description": "A",
+        "comments":[{}]
+        },
         {
-      "id": 0,
-      "name": "Uthapizza",
-      "image": "images/uthapizza.png",
-      "category": "mains",
-      "label": "Hot",
-      "price": "4.99",
-      "description": "A",
-      "comments":[{}]
-      },
-      {
-      "id": 1,
-      "name": "Zucchipakoda",
-      "image": "images/zucchipakoda.png",
-      "category": "mains",
-      "label": "New",
-      "price": "4.99",
-      "description": "A",
-      "comments":[{}]
-      }
-      ]);
+        "id": 1,
+        "name": "Zucchipakoda",
+        "image": "images/zucchipakoda.png",
+        "category": "mains",
+        "label": "New",
+        "price": "4.99",
+        "description": "A",
+        "comments":[{}]
+        }
+        ]);
 
-    scope = $rootScope.$new();
-    MenuController = $controller('MenuController', {
-      $scope: scope, menuFactory: menuFactory
+      scope = $rootScope.$new();
+      MenuController = $controller('MenuController', {
+        $scope: scope, menuFactory: menuFactory
+      });
+              $httpBackend.flush();
+
+    }));
+
+    it('should have showDetails as false', function () {
+
+      expect(scope.showDetails).toBeFalsy();
+
     });
-    
-    $httpBackend.flush();
 
-	it('should have showDetails as false', function () {
+    it('should create "dishes" with 2 dishes fetched from xhr', function(){
 
-		expect(scope.showDetails).toBeFalsy();
+        expect(scope.showMenu).toBeTruthy();
+        expect(scope.dishes).toBeDefined();
+        expect(scope.dishes.length).toBe(2);
 
-	});
+    });
 
-	  it('should create "dishes" with 2 dishes fetched from xhr', function(){
+    it('should have the correct data order in the dishes', function() {
 
-	      expect(scope.showMenu).toBeTruthy();
-	      expect(scope.dishes).toBeDefined();
-	      expect(scope.dishes.length).toBe(2);
+        expect(scope.dishes[0].name).toBe("Uthapizza");
+        expect(scope.dishes[1].label).toBe("New");
 
-	  });
+    });
 
-	  it('should have the correct data order in the dishes', function() {
+    it('should change the tab selected based on tab clicked', function(){
 
-	      expect(scope.dishes[0].name).toBe("Uthapizza");
-	      expect(scope.dishes[1].label).toBe("New");
+        expect(scope.tab).toEqual(1);
 
-	  });
+        scope.select(3);
 
-	  it('should change the tab selected based on tab clicked', function(){
+        expect(scope.tab).toEqual(3);
+        expect(scope.filtText).toEqual('mains');
 
-	      expect(scope.tab).toEqual(1);
-
-	      scope.select(3);
-
-	      expect(scope.tab).toEqual(3);
-	      expect(scope.filtText).toEqual('mains');
-
-	  });
-
-  }));
+    });
 });
